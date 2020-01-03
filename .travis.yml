@@ -1,4 +1,5 @@
 arch: ppc64le
+dist: trusty
 os: linux-ppc64le
 
 addons:
