@@ -1,56 +1,14 @@
-language: cpp
-sudo: false
-dist: trusty
+arch: ppc64le
+os: linux-ppc64le
+
 addons:
   apt:
     packages:
-    - valgrind
-  homebrew:
-    packages:
-    - openssl
+    - valgrind maven ant protobuf-compiler
 
-matrix:
-  fast_finish: true
-  include:
-  - compiler: gcc
-    os: linux
-    script:
-    - mkdir build
-    - cd build
-    - cmake -DANALYZE_JAVA=ON ..
-    - travis_wait 35 make package test-out
-  - compiler: clang
-    os: linux
-    addons:
-      apt:
-         sources:
-           - llvm-toolchain-trusty-4.0
-         packages:
-           - clang-4.0
-    before_script:
-      - export CC=clang-4.0
-      - export CXX=clang++-4.0
-  - compiler: clang
-    os: osx
-    osx_image: xcode7.3
-    script:
-    - brew link --overwrite --force openssl
-    - mkdir build
-    - cd build
-    - cmake -DOPENSSL_ROOT_DIR=`brew --prefix openssl` ..
-    - make package test-out
-  - compiler: clang
-    os: osx
-    osx_image: xcode10.3
-    script:
-    - brew link --overwrite --force openssl
-    - mkdir build
-    - cd build
-    - cmake -DOPENSSL_ROOT_DIR=`brew --prefix openssl` ..
-    - make package test-out
 
 jdk:
-  - openjdk7
+  - openjdk8
 
 env:
   - MAVEN_OPTS=-Xmx2g MAVEN_SKIP_RC=true
@@ -58,6 +16,7 @@ env:
 cache:
   directories:
   - $HOME/.m2
+
 
 script:
   - mkdir build
