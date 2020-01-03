@@ -73,9 +73,9 @@ INCLUDE(ExternalProject)
 # Compiler specific flags
 #
 if (NOT MSVC)
-  set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
-  set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O3 -g -DNDEBUG")
-  set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
+  set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g -fsigned-char")
+  set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O3 -g -DNDEBUG -fsigned-char")
+  set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG -fsigned-char")
 endif ()
 message(STATUS "compiler ${CMAKE_CXX_COMPILER_ID} version ${CMAKE_CXX_COMPILER_VERSION}")
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
