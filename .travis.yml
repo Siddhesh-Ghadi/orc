@@ -4,7 +4,7 @@ os: linux-ppc64le
 addons:
   apt:
     packages:
-    - valgrind maven ant protobuf-compiler
+    - valgrind maven ant
 
 
 jdk:
@@ -19,6 +19,21 @@ cache:
 
 
 script:
+  - wget https://github.com/google/protobuf/releases/download/v2.5.0/protobuf-2.5.0.tar.gz
+  - tar -xf protobuf-2.5.0.tar.gz
+  - cd protobuf-2.5.0
+  - sed -i '22s/http:\/\/googletest.googlecode.com\/files\/gtest-1.5.0.tar.bz2/https:\/\/src.fedoraproject.org\/repo\/pkgs\/gtest\/gtest-1.5.0.tar.bz2\/8b2c3c3f26cb53e64a3109d03a97200a\/gtest-1.5.0.tar.bz2/' autogen.sh
+  - cd src/google/protobuf/stubs/
+  - rm atomicops.h platform_macros.h 
+  - wget https://raw.githubusercontent.com/protocolbuffers/protobuf/2.7.0/src/google/protobuf/stubs/atomicops.h 
+  - wget https://raw.githubusercontent.com/protocolbuffers/protobuf/2.7.0/src/google/protobuf/stubs/atomicops_internals_power.h  
+  - wget https://raw.githubusercontent.com/protocolbuffers/protobuf/2.7.0/src/google/protobuf/stubs/platform_macros.h 
+  - cd ../../../../
+  - ./autogen.sh
+  - ./configure
+  - make
+  - mvn install:install-file -DgroupId=com.google.protobuf -DartifactId=protoc -Dversion=2.5.0 -Dclassifier=linux-ppcle_64 -Dpackaging=exe -Dfile=./src/protoc
+  - cd ..
   - mkdir build
   - cd build
   - cmake -DANALYZE_JAVA=ON ..
